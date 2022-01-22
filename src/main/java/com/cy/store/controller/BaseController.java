@@ -28,12 +28,21 @@ public class BaseController {
             jsonResult.setState(4000);
             jsonResult.setMessage("用户名已经被占用");
         }else if(e instanceof UserNotFoundException){
-            jsonResult.setState(5001);
+            jsonResult.setState(4001);
             jsonResult.setMessage("用户数据不存在异常");
         }else if(e instanceof PasswordNotMatchException){
-            jsonResult.setState(5002);
+            jsonResult.setState(4002);
             jsonResult.setMessage("密码错误的异常");
-        } else if(e instanceof InsertException){
+        } else if(e instanceof AddressCountLimitException){
+            jsonResult.setState(4003);
+            jsonResult.setMessage("用户收货地址超出上限的异常");
+        }else if(e instanceof AddressNotFoundException){
+            jsonResult.setState(4004);
+            jsonResult.setMessage("用户收货地址数据不存在的异常");
+        }else if(e instanceof AccessDeniedException){
+            jsonResult.setState(4005);
+            jsonResult.setMessage("用户收货地址非法访问的异常");
+        }else if(e instanceof InsertException){
             jsonResult.setState(5000);
             jsonResult.setMessage("插入数据时产生未知的异常");
         } else if(e instanceof  UpdateException){

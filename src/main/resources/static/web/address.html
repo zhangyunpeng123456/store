@@ -269,6 +269,51 @@
 			</div>
 		</footer>
 		<!--页脚结束-->
+		
+		<script type="application/javascript">
+			$(document).ready(function () {
+				showAddressList()
+            });
+			
+			function showAddressList() {
+				$.ajax({
+					"url": "/addresses",
+					"type": "GET",
+					"dataType": "json",
+					success: function (json) {
+					    //清空收货地址列表
+                        $("#address-list").empty();
+
+						if (json.state === 200){
+						    let addressList = json.data;
+						    for (let i = 0 ; i < addressList.length ; i++){
+						        let tr = '<tr>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<td>#{tag}</td>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<td>#{name}</td>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<td>#{address}</td>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<td>#{phone}</td>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<td><a class="btn btn-xs btn-info"><span class="fa fa-edit"></span> 修改</a></td>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<td><a class="btn btn-xs add-del btn-info"><span class="fa fa-trash-o"></span> 删除</a></td>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<td><a class="btn btn-xs add-def btn-default">设为默认</a></td>\n' +
+                                    '\t\t\t\t\t\t\t\t</tr>';
+
+								tr = tr.replace(/#{tag}/g, addressList[i].tag);
+								tr = tr.replace(/#{name}/g, addressList[i].name);
+								tr = tr.replace('#{address}', addressList[i].address);
+								tr = tr.replace('#{phone}', addressList[i].phone);
+
+								$("#address-list").append(tr)
+							}
+
+							// 将默认收货地址的 设为默认 按钮隐藏
+							$('.add-def:eq(0)').hide();
+						}else{
+						    alert("用户收货地址数据加载失败" + json.message)
+						}
+                    }
+				});
+            }
+		</script>
 	</body>
 
 </html>
