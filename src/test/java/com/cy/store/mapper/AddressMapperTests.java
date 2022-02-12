@@ -70,4 +70,15 @@ public class AddressMapperTests {
         System.out.println(rows);
     }
 
+    @Test
+    public void testDeleteByAid(){
+        Integer rows = addressMapper.deleteByAid(14);
+        System.out.println(rows);
+    }
+
+    @Test
+    public void testFindLastModified(){
+        Address address = addressMapper.findLastModified(4);
+        System.out.println(address);
+    }
 }

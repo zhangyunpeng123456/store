@@ -294,13 +294,14 @@
                                     '\t\t\t\t\t\t\t\t\t<td>#{phone}</td>\n' +
                                     '\t\t\t\t\t\t\t\t\t<td><a class="btn btn-xs btn-info"><span class="fa fa-edit"></span> 修改</a></td>\n' +
                                     '\t\t\t\t\t\t\t\t\t<td><a class="btn btn-xs add-del btn-info"><span class="fa fa-trash-o"></span> 删除</a></td>\n' +
-                                    '\t\t\t\t\t\t\t\t\t<td><a class="btn btn-xs add-def btn-default">设为默认</a></td>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<td><a class="btn btn-xs add-def btn-default" onclick="setDefault(#{aid});">设为默认</a></td>\n' +
                                     '\t\t\t\t\t\t\t\t</tr>';
 
 								tr = tr.replace(/#{tag}/g, addressList[i].tag);
 								tr = tr.replace(/#{name}/g, addressList[i].name);
 								tr = tr.replace('#{address}', addressList[i].address);
-								tr = tr.replace('#{phone}', addressList[i].phone);
+								tr = tr.replace("#{phone}", addressList[i].phone);
+								tr = tr.replace("#{aid}", addressList[i].aid);
 
 								$("#address-list").append(tr)
 							}
@@ -310,6 +311,24 @@
 						}else{
 						    alert("用户收货地址数据加载失败" + json.message)
 						}
+                    }
+				});
+            }
+
+            function setDefault(aid) {
+				$.ajax({
+					"url": "/addresses/" + aid + "/set_default",
+					"type": "post",
+					"dataType": "json",
+					success: function (json) {
+						if (json.state === 200){
+						    showAddressList();
+						}else{
+						    alert("设置默认收货地址失败" + json.message);
+						}
+                    },
+					error: function (xhr) {
+						alert("设置默认收货地址时产生了未知的异常" + xhr.message);
                     }
 				});
             }

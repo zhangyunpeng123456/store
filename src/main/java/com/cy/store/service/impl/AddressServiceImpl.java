@@ -112,4 +112,36 @@ public class AddressServiceImpl implements IAddressService {
             throw new UpdateException("更新数据产生未知异常");
         }
     }
+
+    @Override
+    public void delete(Integer aid, Integer uid, String username) {
+        Address address = addressMapper.findByAid(aid);
+        if(null == address){
+            throw new AddressNotFoundException("收货地址数据不存在");
+        }
+
+        if(!address.getUid().equals(uid)){
+            throw new AccessDeniedException("非法数据访问");
+        }
+
+        Integer rows = addressMapper.deleteByAid(aid);
+        if(rows != 1){
+            throw new DeleteException("删除数据时产生未知的异常");
+        }
+
+        Integer count = addressMapper.countByUid(uid);
+        if(count == 0){
+            return;
+        }
+
+        if(address.getIsDefault() == 0){
+            return;
+        }
+
+        Address address1 = addressMapper.findLastModified(uid);
+        rows = addressMapper.updateDefaultByAid(address1.getAid(), username, new Date());
+        if(rows != 1){
+            throw new UpdateException("更新数据时产生未知的异常");
+        }
+    }
 }

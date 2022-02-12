@@ -46,7 +46,10 @@ public class BaseController {
             jsonResult.setState(5000);
             jsonResult.setMessage("插入数据时产生未知的异常");
         } else if(e instanceof  UpdateException){
-            jsonResult.setState(5003);
+            jsonResult.setState(5001);
+            jsonResult.setMessage("删除数据时产生未知的异常");
+        }else if(e instanceof DeleteException){
+            jsonResult.setState(5002);
             jsonResult.setMessage("更新数据时产生未知的异常");
         }else if (e instanceof FileEmptyException) {
             jsonResult.setState(6000);

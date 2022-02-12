@@ -45,4 +45,9 @@ public class AddressServiceTests {
     public void testSetDefault(){
         iAddressService.setDefault(4, 4, "tom4");
     }
+
+    @Test
+    public void testDelete(){
+        iAddressService.delete(1, 4, "tomas");
+    }
 }
