@@ -42,6 +42,9 @@ public class BaseController {
         }else if(e instanceof AccessDeniedException){
             jsonResult.setState(4005);
             jsonResult.setMessage("用户收货地址非法访问的异常");
+        }else if(e instanceof ProductNotFoundException){
+            jsonResult.setState(4006);
+            jsonResult.setMessage("商品数据不存在的异常");
         }else if(e instanceof InsertException){
             jsonResult.setState(5000);
             jsonResult.setMessage("插入数据时产生未知的异常");

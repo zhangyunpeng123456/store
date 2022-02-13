@@ -51,6 +51,7 @@ public class AddressController extends BaseController {
     @PostMapping("/{aid}/delete")
     public JsonResult<Void> delete(@PathVariable("aid") Integer aid, HttpSession session){
         addressService.delete(aid, getUidFromSession(session), getUsernameFromSession(session));
+        System.out.println("----------------------------");
         return new JsonResult<>(OK);
     }
 }

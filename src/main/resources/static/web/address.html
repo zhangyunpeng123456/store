@@ -272,7 +272,7 @@
 		
 		<script type="application/javascript">
 			$(document).ready(function () {
-				showAddressList()
+				showAddressList();
             });
 			
 			function showAddressList() {
@@ -293,7 +293,7 @@
                                     '\t\t\t\t\t\t\t\t\t<td>#{address}</td>\n' +
                                     '\t\t\t\t\t\t\t\t\t<td>#{phone}</td>\n' +
                                     '\t\t\t\t\t\t\t\t\t<td><a class="btn btn-xs btn-info"><span class="fa fa-edit"></span> 修改</a></td>\n' +
-                                    '\t\t\t\t\t\t\t\t\t<td><a class="btn btn-xs add-del btn-info"><span class="fa fa-trash-o"></span> 删除</a></td>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<td><a onclick="deleteByAid(#{aid})" class="btn btn-xs add-del btn-info"><span class="fa fa-trash-o"></span> 删除</a></td>\n' +
                                     '\t\t\t\t\t\t\t\t\t<td><a class="btn btn-xs add-def btn-default" onclick="setDefault(#{aid});">设为默认</a></td>\n' +
                                     '\t\t\t\t\t\t\t\t</tr>';
 
@@ -315,6 +315,25 @@
 				});
             }
 
+            function deleteByAid(aid){
+				$.ajax({
+                    "url": "/addresses/" + aid + "/delete",
+                    "type": "post",
+					"dataType": "json",
+					success: function (json) {
+						if(json.state === 200){
+                            //重新加载收货地址列表页面
+                            showAddressList();
+						}else{
+                            alert("删除收货地址失败" + json.message);
+						}
+                    },
+					error: function (xhr) {
+                        alert("删除收货地址时产生了未知的异常" + xhr.message);
+                    }
+                });
+            }
+
             function setDefault(aid) {
 				$.ajax({
 					"url": "/addresses/" + aid + "/set_default",
@@ -322,6 +341,7 @@
 					"dataType": "json",
 					success: function (json) {
 						if (json.state === 200){
+						    //重新加载收货地址列表页面
 						    showAddressList();
 						}else{
 						    alert("设置默认收货地址失败" + json.message);
